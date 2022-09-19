@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <div class="game-field-wrap">
+            <div class="timer-and-button-wrap">
+                <div class="timer-wrap">
+                    <div class="min-sec">
+                        <p>min</p>
+                        <p>sec</p>
+                    </div>
+                    <div class="time">00.00</div>
+                </div>
+                <button class="submit">Начать заново</button>
+            </div>
+            <div class="cards-wrap"></div>
+        </div>
+        <script src="src/cards.js"></script>
+        <script>
+            const cardsWrap = document.querySelector('.cards-wrap');
+
+            for (let card of cards) {
+                const cardShirt = document.createElement('img');
+                cardShirt.classList.add('card-shirt');
+                cardShirt.setAttribute('src', card);
+                cardsWrap.append(cardShirt);
+            }
+        </script>
+    </body>
+</html>

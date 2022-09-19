@@ -1,75 +1,116 @@
-		@font-face {
-			font-family: "Stratos Skyeng";
-			font-style: normal;
-			font-weight: 400;
-			src: local("Stratos Skyeng"),
-				url("/fonts/stratosskyengweb-regular.woff2") format("woff2"),
-				url("/fonts/stratosskyengweb-regular.woff") format("woff");
-		}
+/* stylelint-disable selector-class-pattern */
+/* stylelint-disable prettier/prettier */
+@font-face {
+	font-family: 'Stratos Skyeng';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Stratos Skyeng'),
+		url('/fonts/stratosskyengweb-regular.woff2') format('woff2'),
+		url('/fonts/stratosskyengweb-regular.woff') format('woff');
+}
 
-		* {
-			font-family: 'Stratos Skyeng';
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
+* {
+	font-family: 'Stratos Skyeng', sans-serif;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
 
-		body {
-			background-color: #004980;
-			color: white;
-			display: flex;
-			justify-content: center;
-			margin-top: 158px;
-		}
+body {
+	background-color: #004980;
+	color: white;
+	display: flex;
+	justify-content: center;
+}
 
-		.message-wrap {
-			width: 480px;
-			height: 459px;
-			background: #C2F5FF;
-			border-radius: 12px;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			padding: 52px 0 48px 0;
-			justify-content: space-between;
-		}
+.message-wrap {
+	width: 480px;
+	height: 459px;
+	background: #c2f5ff;
+	border-radius: 12px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 52px 0 48px;
+	justify-content: space-between;
+	margin-top: 158px;
+}
 
-		.header {
-			font-weight: 400;
-			font-size: 40px;
-			line-height: 48px;
-			text-align: center;
-			width: 208px;
-			margin-bottom: 48px;
-			color: #004980;
-		}
+.header {
+	font-weight: 400;
+	font-size: 40px;
+	line-height: 48px;
+	text-align: center;
+	width: 208px;
+	margin-bottom: 48px;
+	color: #004980;
+}
 
-		.difficult-wrap {
-			display: flex;
-			margin-bottom: 67px;
-			font-size: 64px;
-			line-height: 72px;
-			gap: 24px;
-		}
+.difficult-wrap {
+	display: flex;
+	margin-bottom: 67px;
+	font-size: 64px;
+	line-height: 72px;
+	gap: 24px;
+}
 
-		.difficult-wrap__item {
-			width: 98px;
-			height: 98px;
-			background: #FFFFFF;
-			border-radius: 12px;
-			color: #0080C1;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+.difficult-wrap__item {
+	width: 98px;
+	height: 98px;
+	background: #fff;
+	border-radius: 12px;
+	color: #0080c1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
-		.submit {
-			width: 246px;
-			height: 50px;
-			background: #7AC100;
-			border-radius: 12px;
-			border: none;
-			font-size: 24px;
-			line-height: 32px;
-			color: white;
-		}
+.submit {
+	width: 246px;
+	height: 50px;
+	background: #7ac100;
+	border-radius: 12px;
+	border: none;
+	font-size: 24px;
+	line-height: 32px;
+	color: white;
+	cursor: pointer;
+}
+
+.cards-wrap {
+	display: grid;
+	grid-template-columns: repeat(9, 1fr);
+	gap: 15px;
+}
+
+.card-shirt {
+	cursor: pointer;
+}
+
+.game-field-wrap {
+	margin-top: 22px;
+}
+
+.timer-and-button-wrap {
+	display: flex;
+	align-items: flex-end;
+	margin-bottom: 46px;
+	justify-content: space-between;
+}
+
+.min-sec {
+	display: flex;
+	justify-content: flex-end;
+	margin-right: 5px;
+	gap: 57px;
+}
+
+.min-sec p {
+	font-size: 16px;
+	line-height: 32px;
+}
+
+.time {
+	font-size: 64px;
+	line-height: 50px;
+}
