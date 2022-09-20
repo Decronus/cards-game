@@ -83,7 +83,8 @@ body {
 	gap: 15px;
 }
 
-.card-shirt {
+.card-shirt,
+.card-open {
 	cursor: pointer;
 }
 
