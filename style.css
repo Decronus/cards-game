@@ -63,6 +63,11 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
+}
+
+.selected {
+	border: 4px solid #004980;
 }
 
 .submit {
@@ -90,6 +95,9 @@ body {
 
 .game-field-wrap {
 	margin-top: 22px;
+	width: 1024px;
+	padding-left: 25px;
+	padding-right: 25px;
 }
 
 .timer-and-button-wrap {

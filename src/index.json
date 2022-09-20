@@ -1,0 +1,3 @@
+{
+    "body": "<div class='message-wrap'><h1 class='header'>Выбери сложность</h1><div class='difficult-wrap'><div class='difficult-wrap__item'>1</div><div class='difficult-wrap__item'>2</div><div class='difficult-wrap__item'>3</div></div><button class='submit start'>Старт</button></div>"
+}

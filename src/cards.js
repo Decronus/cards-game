@@ -38,3 +38,5 @@ const cards = [
     'img/7-club.png',
     'img/6-club.png',
 ];
+
+export { cards };
