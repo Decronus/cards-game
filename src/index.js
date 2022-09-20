@@ -20,18 +20,18 @@ difficultWrapItem.forEach((el) => {
 const fillGameFieldShirt = (difficult) => {
     const cardsWrap = document.querySelector('.cards-wrap');
     cardsWrap.innerHTML = '';
-    let cardAmount;
-    switch (difficult) {
-        case 1:
-            cardAmount = 6;
-            break;
-        case 2:
-            cardAmount = 12;
-            break;
-        case 3:
-            cardAmount = 18;
-            break;
-    }
+    let cardAmount = difficult * 6;
+    // switch (difficult) {
+    //     case 1:
+    //         cardAmount = 6;
+    //         break;
+    //     case 2:
+    //         cardAmount = 12;
+    //         break;
+    //     case 3:
+    //         cardAmount = 18;
+    //         break;
+    // }
 
     while (cardAmount !== 0) {
         const cardShirt = document.createElement('img');
