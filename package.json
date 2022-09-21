@@ -8,6 +8,7 @@
         "format": "prettier --write .",
         "lint:js": "eslint *.js",
         "lint:css": "stylelint *.css",
+        "lint:ts": "tsc --noEmit",
         "build": "NODE_ENV=production webpack",
         "start": "webpack-dev-server --open"
     },
@@ -36,6 +37,8 @@
         "stylelint-config-prettier": "^9.0.3",
         "stylelint-config-standard": "^28.0.0",
         "stylelint-prettier": "^2.0.0",
+        "ts-loader": "^9.4.1",
+        "typescript": "^4.8.3",
         "webpack": "^5.74.0",
         "webpack-cli": "^4.10.0",
         "webpack-dev-server": "^4.11.1"
