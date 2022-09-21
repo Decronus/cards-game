@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { cards } from './cards.js';
 // import '../style.css';
 
@@ -17,7 +18,32 @@ difficultWrapItem.forEach((el) => {
     });
 });
 
+// eslint-disable-next-line no-unused-vars
+
 const fillGameFieldShirt = (difficult) => {
+    const timeSec = document.querySelector('.time-sec');
+    const timeMin = document.querySelector('.time-min');
+    let minutes = 0;
+    let seconds = 0;
+    const timerFunc = () => {
+        seconds += 1;
+        if (seconds < 10) {
+            timeSec.textContent = '0' + seconds;
+        } else if (seconds < 60) {
+            timeSec.textContent = seconds;
+        } else {
+            seconds -= 60;
+            timeSec.textContent = '0' + seconds;
+            minutes += 1;
+            if (minutes < 10) {
+                timeMin.textContent = '0' + minutes;
+            } else {
+                timeMin.textContent = minutes;
+            }
+        }
+        console.log(seconds);
+    };
+    const globalTimer = setInterval(timerFunc, 1000);
     const cardsWrap = document.querySelector('.cards-wrap');
     cardsWrap.innerHTML = '';
     let cardAmount = difficult * 6;
@@ -34,6 +60,7 @@ const fillGameFieldShirt = (difficult) => {
 
     let cardOne;
     let cardTwo;
+    const gameOverBackground = document.querySelector('.game-over-background');
     cardsShirt.forEach((card) => {
         card.addEventListener('click', (event) => {
             const target = event.target;
@@ -45,15 +72,35 @@ const fillGameFieldShirt = (difficult) => {
                 cardTwo = cardsFinal[cardIndex];
             }
             if (cardOne === cardTwo) {
-                alert('Вы победили!');
+                clearInterval(globalTimer);
+
                 setTimeout(() => {
-                    location.href = 'index.html';
-                }, 1000);
+                    //Отсюда извлекаем время
+                    const time = document.querySelector('.time');
+                    //Сюда вставляем
+                    const timeAmount = document.querySelector('.time-amount');
+                    timeAmount.textContent = time.textContent;
+                    gameOverBackground.style.display = 'flex';
+                }, 1200);
             } else if (cardOne && cardTwo) {
-                alert('Вы проиграли!');
+                clearInterval(globalTimer);
+
                 setTimeout(() => {
-                    location.href = 'index.html';
-                }, 1000);
+                    //Отсюда извлекаем время
+                    const time = document.querySelector('.time');
+                    //Сюда вставляем
+                    const timeAmount = document.querySelector('.time-amount');
+                    const gameOverHeader =
+                        document.querySelector('.game-over-header');
+                    gameOverHeader.textContent = 'Вы проиграли!';
+
+                    const gameOverImg =
+                        document.querySelector('.game-over-img');
+                    gameOverImg.setAttribute('src', 'img/lose.png');
+
+                    timeAmount.textContent = time.textContent;
+                    gameOverBackground.style.display = 'flex';
+                }, 1200);
             }
         });
     });
@@ -88,15 +135,17 @@ start.addEventListener('click', () => {
 
         request.onload = () => {
             document.body.innerHTML = request.response.body;
-            const newGame = document.querySelector('.new-game');
-            newGame.addEventListener('click', () => {
-                location.href = 'index.html';
+            const newGame = document.querySelectorAll('.new-game');
+            newGame.forEach((el) => {
+                el.addEventListener('click', () => {
+                    location.href = 'index.html';
+                });
             });
 
             fillGameFieldCardsOpen(difficultChoice);
             setTimeout(() => {
                 fillGameFieldShirt(difficultChoice);
-            }, 5000);
+            }, 1000);
         };
     }
 });
