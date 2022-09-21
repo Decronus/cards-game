@@ -20,8 +20,10 @@ module.exports = {
                 test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
+            // { test: /\.json$/, loader: 'json-loader' },
         ],
     },
+
     plugins: [
         new CopyPlugin({
             patterns: [{ from: 'img', to: 'img' }],

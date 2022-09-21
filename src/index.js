@@ -1,5 +1,5 @@
-/* eslint-disable prettier/prettier */
 import { cards } from './cards.js';
+// import '../style.css';
 
 const difficultWrapItem = document.querySelectorAll('.difficult-wrap__item');
 const start = document.querySelector('.start');
