@@ -1,0 +1,3 @@
+{
+    "body": "<div class='game-field-wrap'><div class='timer-and-button-wrap'><div class='timer-wrap'><div class='min-sec'><p>min</p><p>sec</p></div><div class='time'><span class='time-min'>00</span>.<span class='time-sec'>00</span></div></div><button class='submit new-game' id='new-game'>Начать заново</button></div><div class='cards-wrap'></div></div><div class='game-over-background hidden'><div class='game-over-wrap'><img class='game-over-img' src='img/win.png'/><h1 class='header game-over-header'>Вы выиграли!</h1><p class='wasted-time'>Затраченное время:</p><p class='time-amount'><span class='minutes'>01</span>.<span class='seconds'>20</span></p><button class='submit new-game'>Начать заново</button></div></div>"
+}

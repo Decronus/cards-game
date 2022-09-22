@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { cards } from './cards.js';
+import { cards } from '../public/cards.js';
 import '../style.css';
 import '/public/game-field.json';
 
@@ -20,8 +20,6 @@ difficultWrapItem.forEach((el) => {
         console.log(difficultChoice);
     });
 });
-
-// eslint-disable-next-line no-unused-vars
 
 const fillGameFieldShirt = (difficult: number) => {
     const timeSec = <HTMLElement>document.querySelector('.time-sec');
@@ -118,7 +116,7 @@ const fillGameFieldShirt = (difficult: number) => {
     });
 };
 
-let cardsFinal: [];
+let cardsFinal: string[];
 const fillGameFieldCardsOpen = (difficult: number) => {
     const randomCards = cards.sort(() => Math.random() - 0.5);
     const cardsForGame = randomCards.slice(0, difficult * 3);
@@ -127,7 +125,7 @@ const fillGameFieldCardsOpen = (difficult: number) => {
         cardsForGameX2.push(card);
         cardsForGameX2.push(card);
     }
-    cardsFinal: [] = cardsForGameX2.sort(() => Math.random() - 0.5);
+    cardsFinal = cardsForGameX2.sort(() => Math.random() - 0.5);
 
     const cardsWrap = <HTMLElement>document.querySelector('.cards-wrap');
     for (let card of cardsFinal) {
@@ -142,7 +140,7 @@ start.addEventListener('click', () => {
     if (difficultChoice) {
         const request = new XMLHttpRequest();
         request.responseType = 'json';
-        request.open('GET', './src/game-field.json');
+        request.open('GET', '/game-field.json');
         request.send();
 
         request.onload = () => {
@@ -158,7 +156,7 @@ start.addEventListener('click', () => {
             fillGameFieldCardsOpen(difficultChoice);
             setTimeout(() => {
                 fillGameFieldShirt(difficultChoice);
-            }, 1000);
+            }, 5000);
         };
     }
 });
