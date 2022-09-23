@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { cards } from '../public/cards.js';
 import '../style.css';
 import '/public/game-field.json';
@@ -6,7 +5,7 @@ import '/public/game-field.json';
 const difficultWrapItem: NodeListOf<Element> = document.querySelectorAll(
     '.difficult-wrap__item'
 );
-const start = <HTMLElement>document.querySelector('.start');
+const start: HTMLElement | null = document.querySelector('.start')!!;
 
 let difficultChoice: number;
 difficultWrapItem.forEach((el) => {
@@ -22,8 +21,8 @@ difficultWrapItem.forEach((el) => {
 });
 
 const fillGameFieldShirt = (difficult: number) => {
-    const timeSec = <HTMLElement>document.querySelector('.time-sec');
-    const timeMin = <HTMLElement>document.querySelector('.time-min');
+    const timeSec: HTMLElement | null = document.querySelector('.time-sec')!;
+    const timeMin: HTMLElement | null = document.querySelector('.time-min')!;
     let minutes = 0;
     let seconds = 0;
     const timerFunc = () => {
@@ -42,10 +41,10 @@ const fillGameFieldShirt = (difficult: number) => {
                 timeMin.textContent = String(minutes);
             }
         }
-        console.log(seconds);
     };
     const globalTimer = setInterval(timerFunc, 1000);
-    const cardsWrap = <HTMLScriptElement>document.querySelector('.cards-wrap');
+    const cardsWrap: HTMLElement | null =
+        document.querySelector('.cards-wrap')!;
     cardsWrap.innerHTML = '';
     let cardAmount: number = difficult * 6;
 
@@ -62,55 +61,71 @@ const fillGameFieldShirt = (difficult: number) => {
 
     let cardOne: string;
     let cardTwo: string;
-    const gameOverBackground = <HTMLElement>(
-        document.querySelector('.game-over-background')
-    );
+    let cardsLeftAmount: number = 0;
+    //учитываем индексы кликнутых карт, чтобы предотвратить обработку клика
+    //по уже откртой карте
+    let prevClickCardIndex: number;
+    let currentClickCardIndex: number;
+    const gameOverBackground: HTMLElement | null = document.querySelector(
+        '.game-over-background'
+    )!;
     cardsShirt.forEach((card) => {
         card.addEventListener('click', (event) => {
             const target = <HTMLElement>event.target;
             const cardIndex = Array.from(cardsShirt).indexOf(target);
+            prevClickCardIndex = currentClickCardIndex;
+            console.log('prevclick', prevClickCardIndex);
+            currentClickCardIndex = cardIndex;
+            console.log('currclick', currentClickCardIndex);
             target.setAttribute('src', cardsFinal[cardIndex]);
             if (!cardOne) {
                 cardOne = cardsFinal[cardIndex];
             } else {
-                cardTwo = cardsFinal[cardIndex];
+                if (prevClickCardIndex !== currentClickCardIndex) {
+                    cardTwo = cardsFinal[cardIndex];
+                }
             }
-            if (cardOne === cardTwo) {
-                clearInterval(globalTimer);
 
-                setTimeout(() => {
-                    //Отсюда извлекаем время
-                    const time = <HTMLElement>document.querySelector('.time');
-                    //Сюда вставляем
-                    const timeAmount = <HTMLElement>(
-                        document.querySelector('.time-amount')
-                    );
-                    timeAmount.textContent = time.textContent;
-                    gameOverBackground.style.display = 'flex';
-                }, 1200);
+            if (cardOne === cardTwo) {
+                cardOne = '';
+                cardTwo = '';
+                cardsLeftAmount += 2;
+                console.log(cardsLeftAmount);
+                if (cardsLeftAmount === difficultChoice * 6) {
+                    clearInterval(globalTimer);
+
+                    setTimeout(() => {
+                        //Отсюда извлекаем время
+                        const time: HTMLElement | null =
+                            document.querySelector('.time')!;
+                        //Сюда вставляем
+                        const timeAmount: HTMLElement | null =
+                            document.querySelector('.time-amount')!;
+                        timeAmount.textContent = time.textContent;
+                        gameOverBackground.style.display = 'flex';
+                    }, 700);
+                }
             } else if (cardOne && cardTwo) {
                 clearInterval(globalTimer);
 
                 setTimeout(() => {
                     //Отсюда извлекаем время
-                    const time = <HTMLElement>document.querySelector('.time');
+                    const time: HTMLElement | null =
+                        document.querySelector('.time')!;
                     //Сюда вставляем
-                    const timeAmount = <HTMLElement>(
-                        document.querySelector('.time-amount')
-                    );
-                    const gameOverHeader = <HTMLElement>(
-                        document.querySelector('.game-over-header')
-                    );
+                    const timeAmount: HTMLElement | null =
+                        document.querySelector('.time-amount')!;
+                    const gameOverHeader: HTMLElement | null =
+                        document.querySelector('.game-over-header')!;
                     gameOverHeader.textContent = 'Вы проиграли!';
 
-                    const gameOverImg = <HTMLElement>(
-                        document.querySelector('.game-over-img')
-                    );
+                    const gameOverImg: HTMLElement | null =
+                        document.querySelector('.game-over-img')!;
                     gameOverImg.setAttribute('src', 'img/lose.png');
 
                     timeAmount.textContent = time.textContent;
                     gameOverBackground.style.display = 'flex';
-                }, 1200);
+                }, 700);
             }
         });
     });
@@ -122,12 +137,12 @@ const fillGameFieldCardsOpen = (difficult: number) => {
     const cardsForGame = randomCards.slice(0, difficult * 3);
     const cardsForGameX2 = [];
     for (let card of cardsForGame) {
-        cardsForGameX2.push(card);
-        cardsForGameX2.push(card);
+        cardsForGameX2.push(card, card);
     }
     cardsFinal = cardsForGameX2.sort(() => Math.random() - 0.5);
 
-    const cardsWrap = <HTMLElement>document.querySelector('.cards-wrap');
+    const cardsWrap: HTMLElement | null =
+        document.querySelector('.cards-wrap')!;
     for (let card of cardsFinal) {
         const cardOpen = document.createElement('img');
         cardOpen.classList.add('card-open');
