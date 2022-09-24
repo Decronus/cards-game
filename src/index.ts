@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { cards } from '../public/cards.js';
 import '../style.css';
 import '/public/game-field.json';
@@ -6,7 +5,7 @@ import '/public/game-field.json';
 const difficultWrapItem: NodeListOf<Element> = document.querySelectorAll(
     '.difficult-wrap__item'
 );
-const start = <HTMLElement>document.querySelector('.start');
+const start: HTMLElement | null = document.querySelector('.start');
 
 let difficultChoice: number;
 difficultWrapItem.forEach((el) => {
@@ -22,38 +21,44 @@ difficultWrapItem.forEach((el) => {
 });
 
 const fillGameFieldShirt = (difficult: number) => {
-    const timeSec = <HTMLElement>document.querySelector('.time-sec');
-    const timeMin = <HTMLElement>document.querySelector('.time-min');
+    const timeSec: HTMLElement | null = document.querySelector('.time-sec');
+    const timeMin: HTMLElement | null = document.querySelector('.time-min');
     let minutes = 0;
     let seconds = 0;
     const timerFunc = () => {
         seconds += 1;
-        if (seconds < 10) {
-            timeSec.textContent = '0' + seconds;
-        } else if (seconds < 60) {
-            timeSec.textContent = String(seconds);
-        } else {
-            seconds -= 60;
-            timeSec.textContent = '0' + seconds;
-            minutes += 1;
-            if (minutes < 10) {
-                timeMin.textContent = '0' + minutes;
+        if (timeSec && timeMin) {
+            if (seconds < 10) {
+                timeSec.textContent = '0' + seconds;
+            } else if (seconds < 60) {
+                timeSec.textContent = String(seconds);
             } else {
-                timeMin.textContent = String(minutes);
+                seconds -= 60;
+                timeSec.textContent = '0' + seconds;
+                minutes += 1;
+                if (minutes < 10) {
+                    timeMin.textContent = '0' + minutes;
+                } else {
+                    timeMin.textContent = String(minutes);
+                }
             }
         }
-        console.log(seconds);
     };
     const globalTimer = setInterval(timerFunc, 1000);
-    const cardsWrap = <HTMLScriptElement>document.querySelector('.cards-wrap');
-    cardsWrap.innerHTML = '';
+    const cardsWrap: HTMLElement | null = document.querySelector('.cards-wrap');
+    if (cardsWrap) {
+        cardsWrap.innerHTML = '';
+    }
+
     let cardAmount: number = difficult * 6;
 
     while (cardAmount !== 0) {
         const cardShirt = document.createElement('img');
         cardShirt.classList.add('card-shirt');
         cardShirt.setAttribute('src', 'img/card-shirt.png');
-        cardsWrap.append(cardShirt);
+        if (cardsWrap) {
+            cardsWrap.append(cardShirt);
+        }
         cardAmount--;
     }
 
@@ -62,55 +67,82 @@ const fillGameFieldShirt = (difficult: number) => {
 
     let cardOne: string;
     let cardTwo: string;
-    const gameOverBackground = <HTMLElement>(
-        document.querySelector('.game-over-background')
+    let cardsLeftAmount: number = 0;
+    //учитываем индексы кликнутых карт, чтобы предотвратить обработку клика
+    //по уже откртой карте
+    let prevClickCardIndex: number;
+    let currentClickCardIndex: number;
+    const gameOverBackground: HTMLElement | null = document.querySelector(
+        '.game-over-background'
     );
     cardsShirt.forEach((card) => {
         card.addEventListener('click', (event) => {
             const target = <HTMLElement>event.target;
             const cardIndex = Array.from(cardsShirt).indexOf(target);
+            prevClickCardIndex = currentClickCardIndex;
+            console.log('prevclick', prevClickCardIndex);
+            currentClickCardIndex = cardIndex;
+            console.log('currclick', currentClickCardIndex);
             target.setAttribute('src', cardsFinal[cardIndex]);
             if (!cardOne) {
                 cardOne = cardsFinal[cardIndex];
             } else {
-                cardTwo = cardsFinal[cardIndex];
+                if (prevClickCardIndex !== currentClickCardIndex) {
+                    cardTwo = cardsFinal[cardIndex];
+                }
             }
-            if (cardOne === cardTwo) {
-                clearInterval(globalTimer);
 
-                setTimeout(() => {
-                    //Отсюда извлекаем время
-                    const time = <HTMLElement>document.querySelector('.time');
-                    //Сюда вставляем
-                    const timeAmount = <HTMLElement>(
-                        document.querySelector('.time-amount')
-                    );
-                    timeAmount.textContent = time.textContent;
-                    gameOverBackground.style.display = 'flex';
-                }, 1200);
+            if (cardOne === cardTwo) {
+                cardOne = '';
+                cardTwo = '';
+                cardsLeftAmount += 2;
+                console.log(cardsLeftAmount);
+                if (cardsLeftAmount === difficultChoice * 6) {
+                    clearInterval(globalTimer);
+
+                    setTimeout(() => {
+                        //Отсюда извлекаем время
+                        const time: HTMLElement | null =
+                            document.querySelector('.time');
+                        //Сюда вставляем
+                        const timeAmount: HTMLElement | null =
+                            document.querySelector('.time-amount');
+                        if (timeAmount && time) {
+                            timeAmount.textContent = time.textContent;
+                        }
+
+                        if (gameOverBackground) {
+                            gameOverBackground.style.display = 'flex';
+                        }
+                    }, 700);
+                }
             } else if (cardOne && cardTwo) {
                 clearInterval(globalTimer);
 
                 setTimeout(() => {
                     //Отсюда извлекаем время
-                    const time = <HTMLElement>document.querySelector('.time');
+                    const time: HTMLElement | null =
+                        document.querySelector('.time');
                     //Сюда вставляем
-                    const timeAmount = <HTMLElement>(
-                        document.querySelector('.time-amount')
-                    );
-                    const gameOverHeader = <HTMLElement>(
-                        document.querySelector('.game-over-header')
-                    );
-                    gameOverHeader.textContent = 'Вы проиграли!';
-
-                    const gameOverImg = <HTMLElement>(
-                        document.querySelector('.game-over-img')
-                    );
-                    gameOverImg.setAttribute('src', 'img/lose.png');
-
-                    timeAmount.textContent = time.textContent;
-                    gameOverBackground.style.display = 'flex';
-                }, 1200);
+                    const timeAmount: HTMLElement | null =
+                        document.querySelector('.time-amount');
+                    const gameOverHeader: HTMLElement | null =
+                        document.querySelector('.game-over-header');
+                    if (gameOverHeader) {
+                        gameOverHeader.textContent = 'Вы проиграли!';
+                    }
+                    const gameOverImg: HTMLElement | null =
+                        document.querySelector('.game-over-img');
+                    if (gameOverImg) {
+                        gameOverImg.setAttribute('src', 'img/lose.png');
+                    }
+                    if (timeAmount && time) {
+                        timeAmount.textContent = time.textContent;
+                    }
+                    if (gameOverBackground) {
+                        gameOverBackground.style.display = 'flex';
+                    }
+                }, 700);
             }
         });
     });
@@ -122,41 +154,44 @@ const fillGameFieldCardsOpen = (difficult: number) => {
     const cardsForGame = randomCards.slice(0, difficult * 3);
     const cardsForGameX2 = [];
     for (let card of cardsForGame) {
-        cardsForGameX2.push(card);
-        cardsForGameX2.push(card);
+        cardsForGameX2.push(card, card);
     }
     cardsFinal = cardsForGameX2.sort(() => Math.random() - 0.5);
 
-    const cardsWrap = <HTMLElement>document.querySelector('.cards-wrap');
+    const cardsWrap: HTMLElement | null = document.querySelector('.cards-wrap');
     for (let card of cardsFinal) {
         const cardOpen = document.createElement('img');
         cardOpen.classList.add('card-open');
         cardOpen.setAttribute('src', card);
-        cardsWrap.append(cardOpen);
+        if (cardsWrap) {
+            cardsWrap.append(cardOpen);
+        }
     }
 };
 
-start.addEventListener('click', () => {
-    if (difficultChoice) {
-        const request = new XMLHttpRequest();
-        request.responseType = 'json';
-        request.open('GET', '/game-field.json');
-        request.send();
+if (start) {
+    start.addEventListener('click', () => {
+        if (difficultChoice) {
+            const request = new XMLHttpRequest();
+            request.responseType = 'json';
+            request.open('GET', '/game-field.json');
+            request.send();
 
-        request.onload = () => {
-            document.body.innerHTML = request.response.body;
-            const newGame: NodeListOf<Element> =
-                document.querySelectorAll('.new-game');
-            newGame.forEach((el) => {
-                el.addEventListener('click', () => {
-                    location.href = 'index.html';
+            request.onload = () => {
+                document.body.innerHTML = request.response.body;
+                const newGame: NodeListOf<Element> =
+                    document.querySelectorAll('.new-game');
+                newGame.forEach((el) => {
+                    el.addEventListener('click', () => {
+                        location.href = 'index.html';
+                    });
                 });
-            });
 
-            fillGameFieldCardsOpen(difficultChoice);
-            setTimeout(() => {
-                fillGameFieldShirt(difficultChoice);
-            }, 5000);
-        };
-    }
-});
+                fillGameFieldCardsOpen(difficultChoice);
+                setTimeout(() => {
+                    fillGameFieldShirt(difficultChoice);
+                }, 1000);
+            };
+        }
+    });
+}
